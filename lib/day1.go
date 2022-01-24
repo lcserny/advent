@@ -1,6 +1,8 @@
 package lib
 
-import "strconv"
+import (
+	"strconv"
+)
 
 func GetIncreasedCount(lines []string) int {
 	var increasedCount int
@@ -17,21 +19,19 @@ func GetIncreasedCount(lines []string) int {
 	return increasedCount
 }
 
-// FIXME
+// FIXME: reread description
 func GetIncreasedSumsCount(lines []string) int {
 	var count int
-	var nextStartWindowIndex int
-	var previousWindowsSum int
+	var previousSum int
 	for i, line := range lines {
-		if i == 0 || i > nextStartWindowIndex {
-			nextStartWindowIndex = i
-			if i + 2 < len(lines) {
-				firstVal, _ := strconv.Atoi(line)
-				secondVal, _ := strconv.Atoi(lines[i+1])
-				thirdVal, _ := strconv.Atoi(lines[i+2])
-				if (firstVal + secondVal + thirdVal) > previousWindowsSum {
-					count++
-				}
+		if i == 0 || (i+1)%3 == 0 {
+			firstVal, _ := strconv.Atoi(line)
+			secondVal, _ := strconv.Atoi(lines[i+1])
+			thirdVal, _ := strconv.Atoi(lines[i+2])
+			sum := firstVal + secondVal + thirdVal
+			if sum > previousSum {
+				count++
+				previousSum = sum
 			}
 		}
 	}
